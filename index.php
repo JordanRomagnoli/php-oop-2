@@ -3,17 +3,21 @@ require_once __DIR__ . './models/products.php';
 require_once __DIR__ . './models/toys.php';
 require_once __DIR__ . './models/food.php';
 require_once __DIR__ . './models/dogbed.php';
+require_once __DIR__ . './models/user.php';
+
+$user = new User('ciao', 'ciao', 'ciao');
+var_dump($user);
 
 $productOne = new Products('prodotto','url', 90 , 1 , 4 ,'', 4);
 //var_dump($productOne);
 
-$toysOne = new Toys('Gioco Rinfrescante ghiacciolo','./img/Karlie-Fill-N-Freeze-Gioco-Rinfrescante-ghiacciolo-per-Cane.jpg', '8,00€' , 1 , 4 ,'Lorem Ipsum', 3 ,'plastica', true);
+$toysOne = new Toys('Gioco Rinfrescante ghiacciolo','./img/Karlie-Fill-N-Freeze-Gioco-Rinfrescante-ghiacciolo-per-Cane.jpg', 8 , 1 , 4 ,'Lorem Ipsum', 3 ,'plastica', true);
 //var_dump($toysOne);
 
-$foodOne = new Food('Vaschette Manzo','./img/vaschette_dog_300_manzo__1.jpg', '2,50€' , 1 , 4 ,'Lorem Ipsum', 3 ,'24/07/2024', 'manzo', 20);
+$foodOne = new Food('Vaschette Manzo','./img/vaschette_dog_300_manzo__1.jpg', 2 , 1 , 4 ,'Lorem Ipsum', 3 ,'24/07/2024', 'manzo', 20);
 //var_dump($foodOne);
 
-$dogbedOne = new DogBed('Cuccia per gatti in plastica','./img/cuccia-per-cani-domus-in-plastica-da-esterno-ricovero-per-cani-trattato-con-impregnanti-ecologici.jpg', '25€' , 0 , 4 ,'Lorem Ipsum', 3 ,'stoffa', '20cm');
+$dogbedOne = new DogBed('Cuccia per gatti in plastica','./img/cuccia-per-cani-domus-in-plastica-da-esterno-ricovero-per-cani-trattato-con-impregnanti-ecologici.jpg', 25 , 0 , 4 ,'Lorem Ipsum', 3 ,'stoffa', '20cm');
 //var_dump($foodOne);
 
 
@@ -45,6 +49,15 @@ $productsArray[] = $dogbedOne;
     <main>
         <div class="container">
             <div class="d-flex flex-wrap">
+
+            <?php
+                if($user->nickname != null && $user->password != null && $user->email != null) {
+                    foreach ($productsArray as $key => $singleProduct) {
+                        $singleProduct->price = $singleProduct->price * 0.20;
+                    };
+                };
+            ?>
+
             <?php foreach ($productsArray as $key => $singleProduct) { ?>
 
                 <div class="card-product">
@@ -59,7 +72,7 @@ $productsArray[] = $dogbedOne;
                             <?php echo $singleProduct->description ?>
                         </p>
                         <h2 class=" text-success ">
-                            <?php echo $singleProduct->price ?>
+                            <?php echo $singleProduct->price.'€' ?>
                         </h2>
                         <span>
                             <?php

@@ -9,15 +9,17 @@ class Products {
     public $stock;
     public $description;
     public $rating;
+    public $discount;
 
     public function __construct(
         string $name, 
         string $imgUrl, 
-        string $price, 
+        int $price, 
         int $category, 
         int $stock, 
         string $description = '', 
-        int $rating = null
+        int $rating = null,
+        bool $discount = null,
     ) 
         {
             $this->name = $name;
