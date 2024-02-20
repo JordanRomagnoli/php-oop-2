@@ -4,9 +4,12 @@ require_once __DIR__ . './models/toys.php';
 require_once __DIR__ . './models/food.php';
 require_once __DIR__ . './models/dogbed.php';
 require_once __DIR__ . './models/user.php';
+require_once __DIR__ . './models/creditCard.php';
 
-$user = new User('ciao', 'ciao', 'ciao');
-var_dump($user);
+$dateNow = new DateTime("2024-12-25");
+$userCreditCard = new CreditCard('AB328947DS', 550 , $dateNow);
+$user = new User('ciao', 'ciao', 'ciao', $userCreditCard);
+//var_dump($user);
 
 $productOne = new Products('prodotto','url', 90 , 1 , 4 ,'', 4);
 //var_dump($productOne);
@@ -25,8 +28,24 @@ $productsArray[] = $toysOne;
 $productsArray[] = $foodOne;
 $productsArray[] = $dogbedOne;
 
+$cart = [];
+
+$cart[] = $toysOne;
+$cart[] = $foodOne;
+
 //var_dump($productsArray);
 
+function payByCard($user)
+{
+    $today = new DateTime();
+    $expireDate = $user->creditCard->expireDate;
+
+    if ($expireDate < $today) {
+        echo 'Carta di credito scaduta';
+    } else {
+        echo 'Pagamento riconosciuto';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +72,7 @@ $productsArray[] = $dogbedOne;
             <?php
                 if($user->nickname != null && $user->password != null && $user->email != null) {
                     foreach ($productsArray as $key => $singleProduct) {
-                        $singleProduct->price = $singleProduct->price * 0.20;
+                        $singleProduct->price = $singleProduct->price * 0.8;
                     };
                 };
             ?>
@@ -83,10 +102,14 @@ $productsArray[] = $dogbedOne;
                             }
                             ?>
                         </span>
+                        <div class="button-cart">
+                            Add to Cart
+                        </div>
                     </div>
                 </div>
 
-            <?php } ?>
+            <?php } ?>              
+            
             </div>
         </div>
     </main>
