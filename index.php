@@ -9,38 +9,60 @@ require_once __DIR__ . './models/creditCard.php';
 $dateNow = new DateTime("2024-12-25");
 $userCreditCard = new CreditCard('AB328947DS', 550 , $dateNow);
 $user = new User('ciao', 'ciao', 'ciao', $userCreditCard);
-//var_dump($user);
-
-$productOne = new Products('prodotto','url', 90 , 1 , 4 ,'', 4);
-//var_dump($productOne);
-
-$toysOne = new Toys('Gioco Rinfrescante ghiacciolo','./img/Karlie-Fill-N-Freeze-Gioco-Rinfrescante-ghiacciolo-per-Cane.jpg', 8 , 1 , 4 ,'Lorem Ipsum', 3 ,'plastica', true);
-//var_dump($toysOne);
-
-$foodOne = new Food('Vaschette Manzo','./img/vaschette_dog_300_manzo__1.jpg', 2 , 1 , 4 ,'Lorem Ipsum', 3 ,'24/07/2024', 'manzo', 20);
-//var_dump($foodOne);
-
-$dogbedOne = new DogBed('Cuccia per gatti in plastica','./img/cuccia-per-cani-domus-in-plastica-da-esterno-ricovero-per-cani-trattato-con-impregnanti-ecologici.jpg', 25 , 0 , 4 ,'Lorem Ipsum', 3 ,'stoffa', '20cm');
-//var_dump($foodOne);
-
-
-$productsArray[] = $toysOne;
-$productsArray[] = $foodOne;
-$productsArray[] = $dogbedOne;
-
 $cart = [];
 
-$cart[] = $toysOne;
+//var_dump($user);
+
+try {
+    $toysOne = new Toys('Gioco Rinfrescante ghiacciolo','./img/Karlie-Fill-N-Freeze-Gioco-Rinfrescante-ghiacciolo-per-Cane.jpg', 8 , 1 , 4 ,'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto, nisi, doloremque assumenda ipsam officia possimus ipsa unde nulla architecto labore temporibus voluptate beatae id vel quod minima, nostrum eligendi porro.
+    ', 3 ,'plastica', true);
+    //var_dump($toysOne);
+
+    $productsArray[] = $toysOne;
+    $cart[] = $toysOne;
+
+}
+catch(Exception $e){
+    echo $e->getMessage() .'<h4>Valore errato</h4>';
+} 
+
+try {
+$foodOne = new Food('Vaschette Manzo','./img/vaschette_dog_300_manzo__1.jpg', 2 , 1 , 4 ,'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto, nisi, doloremque assumenda ipsam officia possimus ipsa unde nulla architecto labore temporibus voluptate beatae id vel quod minima, nostrum eligendi porro.
+', 3 ,'24/07/2024', 'manzo', 20);
+//var_dump($foodOne);
+
+$productsArray[] = $foodOne;
 $cart[] = $foodOne;
+
+
+}
+catch(Exception $e){
+    echo $e->getMessage() .'<h4>Valore errato</h4>';
+} 
+
+
+try{
+$dogbedOne = new DogBed('Cuccia per gatti in plastica','./img/cuccia-per-cani-domus-in-plastica-da-esterno-ricovero-per-cani-trattato-con-impregnanti-ecologici.jpg', 25 , 0 , 4 ,'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto, nisi, doloremque assumenda ipsam officia possimus ipsa unde nulla architecto labore temporibus voluptate beatae id vel quod minima, nostrum eligendi porro.
+', 3 ,'stoffa', '20cm');
+//var_dump($foodOne);
+
+$productsArray[] = $dogbedOne;
+
+}
+catch(Exception $e){
+    echo $e->getMessage() .'<h4>Valore errato</h4>';
+} 
+
+
+
 
 //var_dump($productsArray);
 
 function payByCard($user)
 {
     $today = new DateTime();
-    $expireDate = $user->creditCard->expireDate;
 
-    if ($expireDate < $today) {
+    if ($user->creditCard->expireDate < $today) {
         echo 'Carta di credito scaduta';
     } else {
         echo 'Pagamento riconosciuto';
@@ -77,7 +99,8 @@ function payByCard($user)
                 };
             ?>
 
-            <?php foreach ($productsArray as $key => $singleProduct) { ?>
+            <?php
+             foreach ($productsArray as $key => $singleProduct) { ?>
 
                 <div class="card-product">
                     <div class="frame">
@@ -87,24 +110,26 @@ function payByCard($user)
                         <h3 class="m-0">
                             <?php echo $singleProduct->name ?>
                         </h3>
-                        <p>
-                            <?php echo $singleProduct->description ?>
-                        </p>
-                        <h2 class=" text-success ">
-                            <?php echo $singleProduct->price.'€' ?>
-                        </h2>
-                        <span>
+                        <h4>
                             <?php
-                            if($singleProduct->category == 1){
-                                echo '<i class="fa-solid fa-dog"></i>';
-                            }else{
-                                echo '<i class="fa-solid fa-cat"></i>';
-                            }
+                                if($singleProduct->category == 1){
+                                    echo '<i class="fa-solid fa-dog m-3"></i>';
+                                }else{
+                                    echo '<i class="fa-solid fa-cat m-3"></i>';
+                                }
                             ?>
-                        </span>
+                        </h4>
+                        
+                        <h3 class=" text-success ">
+                            <?php echo $singleProduct->price.'€' ?>
+                        </h3>
                         <div class="button-cart">
                             Add to Cart
                         </div>
+
+                        <p>
+                            <?php echo $singleProduct->description ?>
+                        </p>
                     </div>
                 </div>
 

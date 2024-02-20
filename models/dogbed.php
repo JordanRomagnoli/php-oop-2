@@ -1,9 +1,11 @@
 <?php
 
 require_once __DIR__ . '/products.php';
+require_once __DIR__ . '/../traits/hasMaterial.php';
+
 
 class DogBed extends Products {
-    public $material;
+    use HasMaterial;
     public $size;
 
     public function __construct(

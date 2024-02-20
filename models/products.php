@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ ."/category.php";
+
 class Products {
 
     public $name;
@@ -14,7 +16,7 @@ class Products {
     public function __construct(
         string $name, 
         string $imgUrl, 
-        int $price, 
+        $price, 
         int $category, 
         int $stock, 
         string $description = '', 
@@ -24,10 +26,19 @@ class Products {
         {
             $this->name = $name;
             $this->imgUrl = $imgUrl;
-            $this->price = $price;
+
+            if(is_numeric($price)){
+
+                $this->price = $price;
+
+            }else{
+
+                throw new Exception('Value is not a number');
+
+            }
             $this->category = $category;
             $this->stock = $stock;
             $this->description = $description;
             $this->rating = $rating;
-    }
+        }
 }
